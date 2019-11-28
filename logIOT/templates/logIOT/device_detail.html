@@ -1,0 +1,50 @@
+{% extends 'main/base.html' %}
+
+{% block title %}Device Details{% endblock %}
+
+{% block static %}
+    {% load staticfiles %}
+    <link rel="stylesheet" type="text/css" href="{% static 'logIOT/style.css' %}" />
+{% endblock %}
+
+{% block body %}
+    <h1>{{ device.name }}</h1>
+    {{ device.description }}
+    <br>
+    {% if device.image %}
+        <img src="{{ device.image }}" class="img-device" />
+    {% else %}
+        <h3>No image</h3>
+    {% endif %}
+
+
+    <ul>
+        {% for channel in device.channel_set.all %}
+        <li><a href="{% url 'logIOT:channel-detail' channel.id %}">{{ channel.name }}: {{ channel.sensor_type }}</a></li>
+        {% endfor %}
+    </ul>
+
+    <!-- Channel data plot -->
+    <img src="data.plot">
+
+    <!-- Buttons (only for logged in users) -->
+    {% if user == device.user %}
+    <form action="{% url 'logIOT:channel-add' %}" method="get">
+        {% csrf_token %}
+        <input type="hidden" name="device_id" value="{{ device.id }}"/>
+        <button type="submit" class="btn btn-link"><span class="glyphicon glyphicon-plus"></span> Add Channel</button>
+    </form>
+    <br>
+    <form action="{% url 'logIOT:device-update' device.id %}" method="get" style="display: inline;">
+        {% csrf_token %}
+        <input type="hidden" name="device_id" value="{{ device.id }}"/>
+        <button type="submit" class="btn btn-default btn-sm">Edit</button>
+    </form>
+    <form action="{% url 'logIOT:device-delete' device.id %}" method="get" style="display: inline;">
+        {% csrf_token %}
+        <input type="hidden" name="device_id" value="{{ device.id }}"/>
+        <button type="submit" class="btn btn-default btn-sm">Delete</button>
+    </form>
+    {% endif %}
+
+{% endblock %}

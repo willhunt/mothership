@@ -1,0 +1,43 @@
+{% extends 'main/base.html' %}
+{% block title %}Registration{% endblock %}
+
+{% block static %}
+    {% load staticfiles %}
+    <link rel="stylesheet" type="text/css" href="{% static 'userControl/style.css' %}" />
+{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class="row">
+            <div class="Absolute-Center is-Responsive">
+                <div class="text-logo text-center">sign up to the</div>
+                <div class="text-logo text-center">Mothership</div>
+                <div class="col-sm-12 col-md-10 col-md-offset-1">
+
+                    {% if error_message %}
+                        <p class="text-danger text-center">{{ error_message }}</p>
+                    {% endif %}
+
+                    <form id="registrationForm" class="site_form" role="form" action="" method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {% for field in form %}
+                            <div class="form-group">
+                                <span class="text-danger small">{{ field.errors }}</span>
+                                {{ field }}
+                            </div>
+                        {% endfor %}
+
+                        <div class="form-group">
+                            <button type="sumbit" class="btn btn-def btn-block">Register</button>
+                        </div>
+
+                        <div class="form-group text-center">
+                            <br>
+                            <a href="{% url 'userControl:login' %}">Already have an account? Login.</a>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+{% endblock %}

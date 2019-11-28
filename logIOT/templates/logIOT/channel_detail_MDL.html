@@ -1,0 +1,83 @@
+{% extends 'main/base_MDL.html' %}
+
+{% block title %}Channel Details{% endblock %}
+
+{% block static %}
+    {% load staticfiles %}
+    <link rel="stylesheet" type="text/css" href="{% static 'logIOT/style_MDL.css' %}"></link>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.bundle.js"></script>
+{% endblock %}
+
+{% block body %}
+    <div class="logIOT-layout logIOT-channel-detail content-grid mdl-grid" id="channel-content">
+        <div class="mdl-card logIOT-detail-pane mdl-cell mdl-cell--6-col-desktop mdl-cell--8-col-tablet mdl-cell--4-col-phone mdl-shadow--2dp">
+            <div class="mdl-card__title">
+                <h3 class="mdl-card__title-text">{{ channel.name }}</h3>
+            </div>
+            <div class="mdl-card__supporting-text mdl-card--expand">
+                <table id="tableDetails">
+                    <tr>
+                        <th>Device</th>
+                        <td><a href="{% url 'logIOT:device-detail' channel.device.id %}">{{ channel.device }}</a></td>
+                    </tr>
+                    <tr>
+                        <th>Type</th>
+                        <td>{{ channel.sensor_type }}</td>
+                    </tr>
+                    <tr>
+                        <th>Units</th>
+                        <td>{{ channel.units }}</td>
+                    </tr>
+                </table>
+                <br>
+                <p>Created: {{ channel.date_created }}</p>
+            </div>
+            <div class="mdl-card__actions mdl-card--border">
+                {% if channel.device.public %}
+                    <div class="mdl-card__supporting-text">PUBLIC DEVICE</div>
+                {% endif %}
+                <!-- Buttons (only for logged in users) -->
+                {% if user == channel.device.user %}
+                    <div class="mdl-layout-spacer"></div>
+                	<!-- Add device button -->
+        			<button class="mdl-button mdl-js-button mdl-button--icon" id="edit-device-menu" ><i class="material-icons">settings</i></button>
+                    <ul class="mdl-menu mdl-menu--top-right mdl-js-menu" for="edit-device-menu">
+                        <li class="mdl-menu__item">
+                            <form action="{% url 'logIOT:channel-update' channel.id %}" method="get" style="display: inline;">
+                                {% csrf_token %}
+                                <input type="hidden" name="channel_id" value="{{ channel.id }}"/>
+                                <button class="mdl-button mdl-js-button mdl-js-ripple-effect" type="submit">Edit Channel</button>
+                            </form>
+                        </li>
+                        <li class="mdl-menu__item">
+                            <form action="{% url 'logIOT:channel-delete' channel.id %}" method="get" style="display: inline;">
+                                {% csrf_token %}
+                                <input type="hidden" name="channel_id" value="{{ channel.id }}"/>
+                                <button class="mdl-button mdl-js-button mdl-js-ripple-effect" type="submit">Delete Channel</button>
+                            </form>
+                        </li>
+                    </ul>
+                {% endif %}
+            </div>
+        </div>
+        <div class="mdl-card mdl-cell mdl-cell--6-col-desktop mdl-cell--8-col-tablet mdl-cell--4-col-phone mdl-shadow--2dp">
+            <!-- Channel data plot -->
+            <div class="logIOT-card-chart" style="width:400px" id="channel-chart">
+                <script>
+                    var channel_name = '{{ channel.name }}';
+                    var y_label = '{{ channel.sensor_type }} ({{ channel.units }})';
+                    var x_data = [];
+                    var y_data = [];
+                    {% for data in channel.data_set.all %}
+                        x_data.push(new Date({{ data.time|date:"U" }} * 1000));
+                        y_data.push({{ data.value }});
+                    {% endfor %}
+                </script>
+                <canvas id="channelChart" width="400" height="300"></canvas>
+                <script src="{% static 'logIOT/chart_channels.js' %}"></script>
+            </div>
+        </div>
+
+    </div>
+
+{% endblock %}

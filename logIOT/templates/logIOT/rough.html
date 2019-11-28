@@ -1,0 +1,29 @@
+<!-- Buttons (only for logged in users) -->
+            {% if user == device.user %}
+                <!-- Add device button -->
+                <form action="{% url 'logIOT:channel-add' %}" method="get">
+                    {% csrf_token %}
+                    <input type="hidden" name="device_id" value="{{ device.id }}"/>
+                    <button type="submit" class="mdl-button mdl-js-button mdl-button--icon"><i class="material-icons">add</i></button>
+                </form>
+                <!-- Menu button -->
+                <button class="mdl-button mdl-js-button mdl-button--icon" id="edit-device-menu" ><i class="material-icons">settings</i></button>
+                <ul class="mdl-menu mdl-menu--top-right mdl-js-menu" for="edit-device-menu">
+                    <li class="mdl-menu__item">
+                        <form action="{% url 'logIOT:device-update' device.id %}" method="get" style="display: inline;">
+                            {% csrf_token %}
+                            <input type="hidden" name="device_id" value="{{ device.id }}"/>
+                            <button class="mdl-button mdl-js-button mdl-js-ripple-effect" type="submit">Edit Device</button>
+                        </form>
+                    </li>
+                    <li class="mdl-menu__item">
+                        <form action="{% url 'logIOT:device-delete' device.id %}" method="get" style="display: inline;">
+                            {% csrf_token %}
+                            <input type="hidden" name="device_id" value="{{ device.id }}"/>
+                            <button class="mdl-button mdl-js-button mdl-js-ripple-effect" type="submit">Delete Device</button>
+                        </form>
+                    </li>
+                </ul>
+            {% else %}
+                <div class="mdl-card__supporting-text">PUBLIC DEVICE</div>
+            {% endif %}

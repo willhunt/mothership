@@ -1,0 +1,101 @@
+/* General changes --------------------------------------------------------------*/
+
+.logIOT-layout .mdl-card.logIOT-detail-pane .mdl-card__supporting-text {
+  margin-left: 3px;
+}
+
+.logIOT-layout .mdl-card__media {
+	margin: 0;
+	background-color: transparent;
+}
+
+.logIOT-layout .mdl-card__actions {
+	display: flex;
+	box-sizing:border-box;
+	align-items: center;
+}
+
+.logIOT-layout .mdl-card__actions > .mdl-button--icon {
+	margin-right: 3px;
+	margin-left: 3px;
+}
+
+
+/* Homepage changes ----------------------------------------------------------*/
+.logIOT-centre-text {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* Device map */
+#map-devices {
+    width: 100%;
+    height: 300px;
+    background-color: grey;
+    margin: 0;
+}
+
+
+/* Device Detail Changes -----------------------------------------------------*/
+#device-content {
+    padding-top: 30px;
+    max-width: 1100px;
+}
+
+/* Device image on card */
+.logIOT-layout.logIOT-device-detail .device-image {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.logIOT-layout.logIOT-device-detail .device-image .mdl-card__media {
+    background-size: cover;
+	/*min-height: 150px;*/
+	width: 400px;
+	height: calc(100%);
+	min-height: 300px;
+}
+
+/* Map changes */
+#map-device {
+    width: 100%;
+    height: 100%;
+    min-height: 150px;
+    background-color: grey;
+    margin: 0;
+}
+
+
+/* Channel Detail Changes -----------------------------------------------------*/
+#channel-content {
+    padding-top: 30px;
+    max-width: 900px;
+}
+
+.logIOT-layout.logIOT-channel-detail .mdl-card {
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Table */
+#tableDetails th {
+    padding: 5px;
+    padding-right: 15px;
+    border-right: 1px solid #ddd;;
+}
+#tableDetails td {
+    padding: 5px;
+}
+#tableDetails tr:hover {
+    background-color: #f5f5f5
+}
+
+/* Chart of channel details page */
+/* Trouble accessing through class selector: .logIOT-layout .mdl-card .logIOT-card-chart*/
+#channel-chart {
+    padding: 20px;
+    margin: auto;
+}
+
+

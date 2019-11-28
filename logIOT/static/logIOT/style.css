@@ -1,0 +1,19 @@
+img.img-device {
+    max-width: 300px;
+    max-height: 200px;
+}
+
+#tableDetails {
+
+}
+#tableDetails th {
+    padding: 5px;
+    padding-right: 15px;
+    border-right: 1px solid #ddd;;
+}
+#tableDetails td {
+    padding: 5px;
+}
+#tableDetails tr:hover {
+    background-color: #f5f5f5
+}

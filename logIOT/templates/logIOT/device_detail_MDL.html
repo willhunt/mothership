@@ -1,0 +1,91 @@
+{% extends 'main/base_MDL.html' %}
+
+{% block title %}Device Details{% endblock %}
+
+{% block static %}
+    {% load staticfiles %}
+    <link rel="stylesheet" type="text/css" href="{% static 'logIOT/style_MDL.css' %}"></link>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.bundle.js"></script>
+    <script src="{% static 'logIOT/map.js' %}"></script>
+{% endblock %}
+
+{% block body %}
+<!-- Creat grid for cards -->
+    <div class="logIOT-layout logIOT-device-detail content-grid mdl-grid" id="device-content">
+        <!-- Card for device details -->
+        <div class="mdl-card logIOT-detail-pane mdl-cell mdl-cell--8-col-desktop mdl-cell--8-col-tablet mdl-cell--4-col-phone mdl-shadow--2dp">
+            <!-- Create grid for laying out items (nested) on info card -->
+            <div class="mdl-grid mdl-grid--no-spacing">
+                <!-- Container for image -->
+                <div class="device-image mdl-cell mdl-cell--5-col-desktop mdl-cell--3-col-tablet mdl-cell--4-col-phone">
+                    <div class="mdl-card__media" style="background: url('{{ device.image }}') center / cover;">
+                    </div>
+                </div>
+                <!-- Container for info -->
+                <div class="mdl-card mdl-cell mdl-cell--7-col-desktop mdl-cell--5-col-tablet mdl-cell--4-col-phone">
+                    <div class="mdl-card__title">
+                        <h3 class="mdl-card__title-text">{{ device.name }}</h3>
+                    </div>
+                    <div class="mdl-card__supporting-text mdl-card--expand">
+                        <p>{{ device.description }}</p>
+                        <ul>
+                            {% for channel in device.channel_set.all %}
+                            <li><a href="{% url 'logIOT:channel-detail' channel.id %}">{{ channel.name }}: {{ channel.sensor_type }}</a></li>
+                            {% endfor %}
+                        </ul>
+                        <br>
+                        <p>Created: {{ device.date_created }}</p>
+                    </div>
+
+                    <!-- Container for card actions -->
+                    <div class="mdl-card__actions mdl-card--border">
+                        {% if device.public %}
+                            <div class="mdl-card__supporting-text">PUBLIC DEVICE</div>
+                        {% endif %}
+                        <!-- Buttons (only for logged in users) -->
+                        {% if user == device.user %}
+                            <div class="mdl-layout-spacer"></div>
+                        	<!-- Add device button -->
+                            <form action="{% url 'logIOT:channel-add' %}" method="get">
+                                {% csrf_token %}
+                                <input type="hidden" name="device_id" value="{{ device.id }}"/>
+                                <button type="submit" class="mdl-button mdl-js-button mdl-button--icon"><i class="material-icons">add</i></button>
+                            </form>
+                			<button class="mdl-button mdl-js-button mdl-button--icon" id="edit-device-menu" ><i class="material-icons">settings</i></button>
+                            <ul class="mdl-menu mdl-menu--top-right mdl-js-menu" for="edit-device-menu">
+                                <li class="mdl-menu__item">
+                                    <form action="{% url 'logIOT:device-update' device.id %}" method="get" style="display: inline;">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="device_id" value="{{ device.id }}"/>
+                                        <button class="mdl-button mdl-js-button mdl-js-ripple-effect" type="submit">Edit Device</button>
+                                    </form>
+                                </li>
+                                <li class="mdl-menu__item">
+                                    <form action="{% url 'logIOT:device-delete' device.id %}" method="get" style="display: inline;">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="device_id" value="{{ device.id }}"/>
+                                        <button class="mdl-button mdl-js-button mdl-js-ripple-effect" type="submit">Delete Device</button>
+                                    </form>
+                                </li>
+                            </ul>
+                        {% endif %}
+                    </div><!-- End of card actions -->
+                </div><!-- End of info container -->
+            </div><!-- End of detail view layout grid -->
+        </div><!-- End of detail view card -->
+
+        <!-- Map card -->
+        <div class="mdl-card mdl-cell mdl-cell--4-col-desktop mdl-cell--8-col-tablet mdl-cell--4-col-phone mdl-shadow--2dp">
+            <div id="map-device">
+                <!-- Pass in variables from Django to javascript -->
+                <script>
+                    var lat = {{ device.latitude }};
+                    var lng = {{ device.longitude }};
+                </script>
+                <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAR8rxYroitjOPr_G-Adn6iFEHJNpOyIc8&callback=initDeviceMap">
+                </script>
+            </div>
+        </div>
+    </div><!-- Enf of content grid -->
+
+{% endblock %}

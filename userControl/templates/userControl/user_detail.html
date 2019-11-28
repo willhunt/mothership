@@ -1,0 +1,44 @@
+{% extends 'main/base.html' %}
+
+{% block title %}Account Details{% endblock %}
+
+{% block static %}
+    {% load staticfiles %}
+    <link rel="stylesheet" type="text/css" href="{% static 'userControl/style.css' %}" />
+{% endblock %}
+
+{% block body %}
+    <h1>Account Details</h1>
+    <p>Username: {{ user.username }}</p>
+    <p>First Name: {{ user.first_name }}</p>
+    <p>Last Name: {{ user.last_name }}</p>
+
+    <br>
+    <!-- User this when sorted out: % url 'userControl:user-update' user.id % -->
+    <form action="" method="get">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-default btn-sm">Edit</button>
+    </form>
+
+    <br>
+    <br>
+    <br>
+    <hr>
+    <br>
+    <form action="{% url 'userControl:apitoken-create' %}" method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-default btn-sm">Generate API Key</button>
+    </form>
+    <br>
+    {% if api_tokens %}
+        <ul>
+            {% for token in api_tokens %}
+            <li>{{ token.key }}</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No API tokens</p>
+    {% endif %}
+
+
+{% endblock %}

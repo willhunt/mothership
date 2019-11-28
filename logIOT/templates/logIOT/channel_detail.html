@@ -1,0 +1,54 @@
+{% extends 'main/base_MDL.html' %}
+
+{% block title %}Channel Details{% endblock %}
+
+{% block static %}
+    {% load staticfiles %}
+    <link rel="stylesheet" type="text/css" href="{% static 'logIOT/style.css' %}" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.bundle.js"></script>
+{% endblock %}
+
+{% block body %}
+    <!-- Channel details -->
+    <h1>{{ channel.name }}</h1>
+    <br>
+    <table id="tableDetails">
+        <tr>
+            <th>Device</td>
+            <td><a href="{% url 'logIOT:device-detail' channel.device.id %}">{{ channel.device }}</a></td>
+        </tr>
+        <tr>
+            <th>Type</td>
+            <td>{{ channel.sensor_type }}</td>
+        </tr>
+        <tr>
+            <th>Units</td>
+            <td>{{ channel.units }}</td>
+        </tr>
+    </table>
+    <br>
+    <!-- ChartJS graph -->
+    <div class="smallChart" style="width:400px">
+        <canvas id="channelChart" width="400" height="300"></canvas>
+        <script src="{% static 'logIOT/chart.js' %}"></script>
+    </div>
+
+    <br>
+    <p>Created: {{ channel.date_created }}</p>
+
+    <!-- Buttons (only for logged in users) -->
+    {% if user == channel.device.user %}
+    <br>
+    <form action="{% url 'logIOT:channel-update' channel.id %}" method="get" style="display: inline;">
+        {% csrf_token %}
+        <input type="hidden" name="channel_id" value="{{ channel.id }}"/>
+        <button type="submit" class="btn btn-default btn-sm">Edit</button>
+    </form>
+    <form action="{% url 'logIOT:channel-delete' channel.id %}" method="get" style="display: inline;">
+        {% csrf_token %}
+        <input type="hidden" name="channel_id" value="{{ channel.id }}"/>
+        <button type="submit" class="btn btn-default btn-sm">Delete</button>
+    </form>
+    {% endif %}
+
+{% endblock %}

@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Mothership{% endblock %}</title>
+
+    <!-- Loads the path to your static files -->
+    {% load staticfiles %}
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Baloo+Chettan" rel="stylesheet" type='text/css'>
+    <link rel="stylesheet" type="text/css" href="{% static 'main/style.css' %}" />
+    <link rel="icon" href="{% static 'main/images/M_icon.png' %}" />
+    {% block static %}{% endblock %}
+</head>
+
+<body>
+    <!-- Header Nav Bar -->
+    <nav class="navbar navbar-inverse" role="navigation">
+        <div class="container-fluid">
+
+            <!-- Header -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#topNavBar">
+                    <span class="glyphicon glyphicon-menu-hamburger"></span>
+                </button>
+                <!-- Brand -->
+                <a class="navbar-brand" href="{% url 'main:index' %}">Mothership</a>
+            </div>
+
+            <!-- Items -->
+            <div class ="collapse navbar-collapse" id="topNavBar">
+
+                <!-- Buttons left -->
+                <ul class="nav navbar-nav navbar-left">
+                    <li class="active"><a href="#">Dashboard</a></li>
+                    <li class=""><a href="{% url 'logIOT:devices' %}">Devices</a></li>
+                </ul>
+
+                <!-- Buttons right -->
+                <ul class="nav navbar-nav navbar-right">
+                    <!-- Differnt options depending on login status -->
+                    {% if user.is_authenticated %}
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                            {{ user.username }}<span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="{% url 'userControl:user-detail' user.username %}">
+                                    <span class="glyphicon glyphicon-user" aria-hidden="true"></span>&nbsp; Account
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{% url 'logIOT:device-add' %}">
+                                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>&nbsp; Add Device
+                                </a>
+                            </li>
+                            <!-- Extra for staff -->
+                            {% if user.is_staff %}
+                            <li>
+                                <a href="{% url 'admin:index' %}">
+                                    <span class="glyphicon glyphicon-tower" aria-hidden="true"></span>&nbsp; Admin Panel
+                                </a>
+                            </li>
+                            {% endif %}
+                            <li>
+                                <a href="{% url 'userControl:logout' %}">
+                                    <span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>&nbsp; Logout
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    {% else %}
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                            User<span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="{% url 'userControl:register' %}">
+                                    <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>&nbsp; Register
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{% url 'userControl:login' %}">
+                                    <span class="glyphicon glyphicon-log-in" aria-hidden="true"></span>&nbsp; Login
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    {% endif %}
+                </ul>
+
+                <!-- Search box -->
+                <form class="navbar-form navbar-right nav_search" role="search" method="get" action="#">
+                    <div class="input-group">
+                        <input type="text" class="form-control" name="q" placeholder="Search" value="">
+                        <div class="input-group-btn">
+                            <button class="btn btn-default" type="submit">Go</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </nav>
+
+    <div class="content">
+        <!-- Insert body from other templates -->
+        {% block body %}
+        {% endblock %}
+    </div>
+
+
+    <!-- Footer -->
+    <nav class="navbar navbar-default navbar-fixed-bottom">
+        <div class="container-fluid">
+            <div class="nav navbar-left">
+                <p class="navbar-text">Mothership | Hosted on <a href="https://www.pythonanywhere.com">Pythonanywhere</a></p>
+            </div>
+            <div class="nav navbar-right">
+                <a class="navbar-text" href="{% url 'main:about' %}">About</a>
+            </div>
+        </div>
+    </nav>
+
+
+</body>
+
+</html>
+
+
+
+

@@ -1,0 +1,44 @@
+{% extends 'main/base_MDL.html' %}
+
+{% block static %}
+    {% load staticfiles %}
+    <link rel="stylesheet" type="text/css" href="{% static 'logIOT/style_MDL.css' %}"></link>
+    <script src="{% static 'logIOT/map.js' %}"></script>
+{% endblock %}
+
+{% block body %}
+    <!-- Public device map -->
+    <div class="public-map-section">
+        <div id="map-devices">
+            <!-- Pass in variables from Django to javascript -->
+            <script>
+                var names = [];
+                var links = [];
+                var lats = [];
+                var lngs = [];
+                {% for device in object_list %}
+                    {% if device.latitude and device.longitude %}
+                        names.push('{{ device.name }}');
+                        links.push('{% url 'logIOT:device-detail' device.id %}');
+                        lats.push({{ device.latitude }});
+                        lngs.push({{ device.longitude }});
+                    {% endif %}
+                {% endfor %}
+            </script>
+            <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAR8rxYroitjOPr_G-Adn6iFEHJNpOyIc8&callback=initDevicesMap">
+            </script>
+        </div>
+    </div>
+
+    <br>
+    <!-- Add site description -->
+    <div class="logIOT-centre-text mdl-cell mdl-cell--12-col mdl-typography--text-center">
+
+        <h3>Beam it to the <span class="mothership-title">Mothership</span></h3>
+        <p>Log your IOT data to the Mothership. View sensor data from your public, personal and alien devices throughout the cosmos.</p>
+        <br>
+        <p><a href="">Get me started</a></p>
+    </div>
+{% endblock %}
+
+

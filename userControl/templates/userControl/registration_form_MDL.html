@@ -1,0 +1,45 @@
+{% extends 'main/base_MDL.html' %}
+{% block title %}Registration{% endblock %}
+
+{% block static %}
+    {% load staticfiles %}
+    <link rel="stylesheet" type="text/css" href="{% static 'userControl/style_MDL.css' %}" />
+{% endblock %}
+
+{% block body %}
+    <div class="mdl-layout mdl-js-layout">
+        <div class="mdl-layout_content">
+            <div class="mdl-card mdl-shadow--6dp">
+                <div class="mdl-card__title">
+                    <h2 class="text-logo">Sign up to the Mothership</h2>
+                </div>
+                <div class="mdl-card__supporting-text">
+                    {% if error_message %}
+                        <p>{{ error_message }}</p>
+                    {% endif %}
+
+                    <form id="registrationForm" class="site_form" role="form" action="" method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {% for field in form %}
+                            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                                {{ field }}
+                                <input class="mdl-textfield__label" for="{{ field.id_for_label }}">{{ field.placeholder }}</input>
+                            </div>
+                        {% endfor %}
+
+                        <div class="mdl-card__actions mdl-card--border">
+                            <button type="sumbit" class="mdl-button mdl-js-button mdl-js-ripple-effect">Register</button>
+                        </div>
+
+                        <div class="form-group text-center">
+                            <br>
+                            <a href="{% url 'userControl:login' %}">Already have an account? Login.</a>
+                        </div>
+                    </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

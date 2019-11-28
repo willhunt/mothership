@@ -1,0 +1,16 @@
+{% extends 'main/base_MDL.html' %}
+
+{% block body %}
+    <h1>Homepage</h1>
+    <br>
+    <h2>Public Devices</h2>
+    {% if object_list %}
+        <ul>
+            {% for device in object_list %}
+            <li><a href="{% url 'logIOT:device-detail' device.id %}">{{ device.name }}</a></li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <h3>No public channels</h3>
+    {% endif %}
+{% endblock %}

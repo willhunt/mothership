@@ -1,0 +1,19 @@
+{% extends 'main/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}New Device{% endblock %}
+
+{% block static %}
+    {% load staticfiles %}
+    <link rel="stylesheet" type="text/css" href="{% static 'logIOT/style.css' %}" />
+{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class="text-logo">Mothership Device</div>
+
+            {% crispy form %}
+
+        </div>
+    </div>
+{% endblock %}

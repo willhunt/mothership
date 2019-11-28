@@ -1,0 +1,17 @@
+{% extends 'main/base_MDL.html' %}
+
+{% block title %}Device Details{% endblock %}
+
+{% block static %}
+    {% load staticfiles %}
+    <link rel="stylesheet" type="text/css" href="{% static 'logIOT/style.css' %}" />
+{% endblock %}
+
+{% block body %}
+
+    <form action="" method="post">{% csrf_token %}
+        <p>Are you sure you want to delete "{{ object }}"?</p>
+        <input type="submit" value="Confirm" />
+    </form>
+
+{% endblock %}

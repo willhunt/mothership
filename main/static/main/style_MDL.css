@@ -1,0 +1,80 @@
+/* Global Changes ----------------------------------------------------------- */
+html, body {
+  font-family: 'Roboto', 'Helvetica', sans-serif;
+}
+
+a {
+    text-decoration: none;
+}
+
+.mothership-title {
+    font-family: 'Baloo Chettan', cursive;
+}
+h3 > .mothership-title {
+    font-size: 42px;
+}
+
+
+/* Header Changes ----------------------------------------------------------- */
+.dash-bill .mdl-layout__header {
+    height: 64px;
+    min-height: 64px;
+    overflow: visible;
+    background-color: #424242;
+}
+
+.dash-bill .mdl-layout-title {
+    font-family: 'Baloo Chettan', cursive;
+}
+.dash-bill .mdl-layout__header-row .mdl-layout-title {
+
+}
+#header-title {
+    font-size: 26px;
+    color: white;
+    text-decoration: none;
+}
+
+.mdl-layout__header .mdl-navigation .mdl-navigation__link {
+    font-weight: 500;
+    font-size: 15px;
+    height: 60px;
+    line-height: 68px;
+    background-color: transparent !important;
+    border-bottom: 4px solid transparent;
+}
+.mdl-layout__header .mdl-layout__header-row .mdl-navigation .mdl-navigation__link:hover {
+    /*background: #BDBDBD;
+    border-top: 4px transparent;
+    text-decoration: none;*/
+    border-bottom: 4px solid #FF5252;
+}
+
+
+/* Drawer changes ------------------------------------------------------------*/
+.mdl-layout__drawer .mdl-layout-title {
+    background-color: #dcdcdc;
+}
+
+.drawer-separator {
+    height: 1px;
+    background-color: #dcdcdc;
+    margin: 8px 0;
+  }
+
+/* Content layout changes ----------------------------------------------------*/
+
+/* Make sure footer is not above bottom of the page */
+.page-content {
+  min-height: 100vh;
+}
+
+/* Footer changes ------------------------------------------------------------*/
+.mdl-mini-footer {
+
+}
+
+
+
+
+
